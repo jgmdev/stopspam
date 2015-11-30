@@ -1,0 +1,88 @@
+.TH stopspam 1
+
+.SH NAME
+stopspam \- script to ban spam ip's on the fly
+
+.SH SYNOPSIS
+.B stopspam
+[OPTION]
+
+.SH DESCRIPTION
+.PP
+Anti-spam system that helps minimize the amount of spammers that
+connect to your server by banning their ip's using one of the ip text
+databases provided by http://www.stopforumspam.com/downloads. The
+script also keeps this database updated by periodically downloading
+latest version from the stopforumspam website or any other url that
+you set on the configuration file.
+.PP
+To keep the iptable rules clean the script bans every ip that is found
+to be used for spamming for a period of 10 minutes. After the 10 minutes
+are due the ip is unbanned in order to minimize the amount of rules
+actively used on iptables.
+
+.SH OPTIONS
+
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+display the script options
+.TP
+\fB\-d\fR, \fB\-\-start\fR
+initialize a daemon to monitor connections
+.TP
+\fB\-s\fR, \fB\-\-stop\fR
+stop the daemon
+.TP
+\fB\-t\fR, \fB\-\-status\fR
+display the daemon status and pid if running
+.TP
+\fB\-b\fR, \fB\-\-bans\fR
+Lists banned ip addresses
+.TP
+\fB\-u\fR, \fB\-\-update\fR
+Updates the spammers database file
+
+.SH SETTINGS
+You can modify the script settings by editing /etc/stopspam/stopspam.conf
+
+.TP
+.B ENABLE_UPDATE = <0|1>
+Enables automatic downloading and updating of spam database.
+(Default: 1)
+
+.TP
+.B SPAM_DB_URL = '<url>'
+The url where the spam database resides. Supports url's of .zip files
+containing .txt files inside or url's to uncompressed .txt files. Check
+http://www.stopforumspam.com/downloads for other ip databases that may
+match your requirements.
+(Default: http://www.stopforumspam.com/downloads/listed_ip_365.zip)
+
+.TP
+.B UPDATE_INTERVAL = <hours>
+The amount of elapsed hours before trying to update the spam database.
+(Default: 48)
+
+.TP
+.B FIREWALL = '<value>'
+The firewall to use for blocking/unblocking, valid values are:
+auto, apf, csf and iptables. (Default: "auto")
+
+.TP
+.B DAEMON_FREQ = <number>
+Frequency in seconds to monitor for spammer ip's. (Default: 3)
+
+.SH FILES
+.B /usr/share/doc/stopspam/LICENSE
+.br
+.B /usr/bin/stopspam
+.br
+.B /etc/stopspam/stopspam.conf
+.br
+.B /etc/stopspam/spam.ip.list
+
+.SH AUTHOR
+Jefferson González <jgmdev@gmail.com>
+
+.SH LICENSE
+Mit License - http://opensource.org/licenses/MIT

@@ -1,0 +1,11 @@
+[Unit]
+Description=Stop Spam
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/stopspam --start
+ExecStop=/usr/bin/stopspam --stop
+
+[Install]
+WantedBy=multi-user.target

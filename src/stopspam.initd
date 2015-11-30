@@ -1,0 +1,47 @@
+#! /bin/sh
+### BEGIN INIT INFO
+# Provides:          stopspam
+# Required-Start:    $remote_fs $network
+# Required-Stop:     $remote_fs $network
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts stopspam
+# Description:       Starts daemon which blocks ip's of spammers if found on text database
+### END INIT INFO
+
+# Init script to control stopspam daemon
+#
+# Jefferson Gonzalez <jgmdev@gmail.com>
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+DAEMON=/usr/bin/stopspam
+INAME="stopspam"
+DESC="anti spammers system"
+LOGDIR=/var/log  # Log directory to use
+
+test -x $DAEMON || exit 0
+
+set -e
+
+case "$1" in
+    start)
+        /usr/bin/stopspam --start
+        ;;
+    stop)
+        /usr/bin/stopspam --stop
+        ;;
+    status)
+        /usr/bin/stopspam --status
+        ;;
+    restart)
+        $0 --stop
+        $0 --start
+        ;;
+    *)
+        echo "Usage: /etc/init.d/stopspam {start|stop|restart|status}"
+        exit 1
+        ;;
+esac
+
+exit 0

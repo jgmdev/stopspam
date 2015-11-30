@@ -1,0 +1,8 @@
+/var/log/stopspam.log {
+    rotate 4
+    weekly
+    notifempty
+    missingok
+    compress
+    minsize 1048576
+}
