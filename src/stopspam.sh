@@ -76,7 +76,7 @@ bans_list()
     fi
 }
 
-# Unbans ip's after 10 minutes
+# Unbans ip's after the amount of seconds specified on $BAN_PERIOD
 clean_ban_list()
 {
     current_unban_time=`date +"%s"`
@@ -202,13 +202,19 @@ check_connections()
                 $IPT -I INPUT -s $ip -j DROP
             fi
 
-            IP_COUNTRY=$(whois $ip | grep -m 1 -i country | awk '{print $2}')
+            if [ "$SAVE_COUNTRY" = "1" ]; then
+                IP_COUNTRY=$(whois $ip | grep -m 1 -i country | awk '{print $2}')
 
-            # Connections are banned for 10 minutes to keep iptables clean
-            current_time=`date +"%s"`
-            echo "$(($current_time+600)) ${ip} ${IP_COUNTRY}" >> "$BANS_IP_LIST"
+                current_time=`date +"%s"`
+                echo "$(($current_time+$BAN_PERIOD)) ${ip} ${IP_COUNTRY}" >> "$BANS_IP_LIST"
 
-            log_msg "banned $ip from country $IP_COUNTRY"
+                log_msg "banned $ip from country $IP_COUNTRY"
+            else
+                current_time=`date +"%s"`
+                echo "$(($current_time+$BAN_PERIOD)) ${ip}" >> "$BANS_IP_LIST"
+
+                log_msg "banned $ip"
+            fi
 
             IP_BAN=1
         fi
@@ -388,6 +394,8 @@ IPT="/sbin/iptables"
 ENABLE_UPDATE=1
 SPAM_DB_URL="http://www.stopforumspam.com/downloads/listed_ip_365.zip"
 UPDATE_INTERVAL=48
+SAVE_COUNTRY=1
+BAN_PERIOD=600
 FIREWALL="auto"
 DAEMON_FREQ=3
 

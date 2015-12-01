@@ -8,9 +8,9 @@ latest version from the **stopforumspam** website or any other url that
 you set on the configuration file.
 
 To keep the iptable rules clean the script bans every ip that is found
-to be used for spamming for a period of 10 minutes. After the 10 minutes
-are due the ip is unbanned in order to minimize the amount of rules
-actively used on iptables.
+to be used for spamming for a predefined period of 10 minutes. After
+the 10 minutes are due the ip is unbanned in order to minimize the
+amount of rules actively used on iptables.
 
 ### Features
 

@@ -64,6 +64,16 @@ The amount of elapsed hours before trying to update the spam database.
 (Default: 48)
 
 .TP
+.B SAVE_COUNTRY = <1|0>
+Store the country of the ip on the log file which can slower the
+script because it uses whois to retreive the information.
+(Default: 1)
+
+.TP
+.B BAN_PERIOD = <seconds>
+The amount of time in seconds to keep a spammer ip banned. (Default: 600)
+
+.TP
 .B FIREWALL = '<value>'
 The firewall to use for blocking/unblocking, valid values are:
 auto, apf, csf and iptables. (Default: "auto")
