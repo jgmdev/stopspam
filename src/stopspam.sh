@@ -330,12 +330,12 @@ daemon_loop()
     while true; do
         check_connections
 
-        # unban expired ip's every 1 minute
+        # unban expired ip's every 10 minute
         current_loop_time=`date +"%s"`
         if [ $current_loop_time -gt $ban_check_timer ]; then
             clean_ban_list
             ban_check_timer=`date +"%s"`
-            ban_check_timer=$(($ban_check_timer+60))
+            ban_check_timer=$(($ban_check_timer+600))
         fi
 
         if [ $ENABLE_UPDATE -eq 1 ]; then
