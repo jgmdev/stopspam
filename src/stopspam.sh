@@ -158,7 +158,17 @@ unban_ip()
 bans_list()
 {
     if [ -e "$BANS_IP_LIST" ]; then
-        cat "$BANS_IP_LIST"
+        printf "% -5s %s\\n" "Exp." "IP"
+        echo '----------------------------'
+        while read line; do
+            time=$(echo "$line" | cut -d" " -f1)
+            ip=$(echo "$line" | cut -d" " -f2)
+            current_time=$(date +"%s")
+            hours=$(echo $(((time-current_time)/60/60)))
+            minutes=$(echo $(((time-current_time)/60%60)))
+
+            echo "$(printf "%02d" "$hours"):$(printf "%02d" "$minutes") $ip"
+        done < "$BANS_IP_LIST"
     fi
 }
 
