@@ -2,10 +2,10 @@
 
 Anti-spam system that helps minimize the amount of spammers that
 connect to your server by banning their ip's using one of the ip text databases
-provided by [**stopforumspam**](http://www.stopforumspam.com/downloads).
+provided by [stopforumspam](http://www.stopforumspam.com/downloads).
 Also the script can optionally fetch the
 [spamhaus.org](https://www.spamhaus.org/drop/) ip list text files.
-**Stop Spam** also keeps this text databases updated by periodically
+**Stop Spam** also keeps these text databases updated by periodically
 downloading latest version from the  website or any other url that
 you set on the configuration file.
 
