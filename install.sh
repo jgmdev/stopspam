@@ -79,37 +79,17 @@ if [ -d /usr/lib/systemd/system ]; then
     cp src/stopspam.service "$DESTDIR/usr/lib/systemd/system/" > /dev/null 2>&1
     chmod 0755 "$DESTDIR/usr/lib/systemd/system/stopspam.service" > /dev/null 2>&1
     echo " (done)"
-
-    # Check if systemctl is installed and activate service
-    SYSTEMCTL_PATH=`whereis systemctl`
-    if [ "$SYSTEMCTL_PATH" != "systemctl:" ] && [ "$DESTDIR" = "" ]; then
-        echo -n "Activating stopspam service..."
-        systemctl enable stopspam > /dev/null 2>&1
-        systemctl start stopspam > /dev/null 2>&1
-        echo " (done)"
-    else
-        echo "stopspam service needs to be manually started... (warning)"
-    fi
 elif [ -d /etc/init.d ]; then
     echo -n 'Setting up init script...'
     mkdir -p "$DESTDIR/etc/init.d/"
     cp src/stopspam.initd "$DESTDIR/etc/init.d/stopspam" > /dev/null 2>&1
     chmod 0755 "$DESTDIR/etc/init.d/stopspam" > /dev/null 2>&1
     echo " (done)"
-
-    # Check if update-rc is installed and activate service
-    UPDATERC_PATH=`whereis update-rc.d`
-    if [ "$UPDATERC_PATH" != "update-rc.d:" ] && [ "$DESTDIR" = "" ]; then
-        echo -n "Activating stopspam service..."
-        update-rc.d stopspam defaults > /dev/null 2>&1
-        service stopspam start > /dev/null 2>&1
-        echo " (done)"
-    else
-        echo "stopspam service needs to be manually started... (warning)"
-    fi
 fi
 
 echo; echo 'Installation has completed!'
 echo 'Config files are located at /etc/stopspam/'
+echo 'You should enable the stopspam service manually using systemctl or'
+echo 'applicable init system for your linux distro.'
 
 exit 0
