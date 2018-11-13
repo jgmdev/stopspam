@@ -316,7 +316,9 @@ check_connections()
         # Only leave non whitelisted, we add ::1 to ensure -v works for ipv6
         grepcidr -v -e "$SERVER_IP_LIST $whitelist 127.0.0.1 ::1" 2>/dev/null | \
         # Only leave spammer ip's
-        grepcidr -f "$SPAM_IP_LIST" -e "$(cat "TOXIC_IP_LIST")" 2>/dev/null
+        grepcidr -f "$SPAM_IP_LIST" -e "$(cat "TOXIC_IP_LIST")" 2>/dev/null | \
+        # Group duplicate results
+        uniq
     )
 
     for ip in $IP_LIST; do
