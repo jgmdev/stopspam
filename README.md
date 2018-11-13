@@ -1,22 +1,26 @@
 # Stop Spam
 
 Anti-spam system that helps minimize the amount of spammers that
-connect to your server by banning their ip's using one of the ip text
-databases provided by http://www.stopforumspam.com/downloads. The
-script also keeps this database updated by periodically downloading
-latest version from the **stopforumspam** website or any other url that
+connect to your server by banning their ip's using one of the ip text databases
+provided by [**stopforumspam**](http://www.stopforumspam.com/downloads).
+Also the script can optionally fetch the
+[spamhaus.org](https://www.spamhaus.org/drop/) ip list text files.
+**Stop Spam** also keeps this text databases updated by periodically
+downloading latest version from the  website or any other url that
 you set on the configuration file.
 
-To keep the iptable rules clean the script bans every ip that is found
+To keep the iptable rules minimal, the script bans every ip that is found
 to be used for spamming for a predefined period of 10 minutes. After
 the 10 minutes are due the ip is unbanned in order to minimize the
-amount of rules actively used on iptables.
+amount of rules actively used.
 
 ### Features
 
 * Auto updates the spam ip database
 * On the fly banning of spam ip's
 * Keeps iptable rules clean
+* Whitelisting of ip's and hosts
+* IPv6 support
 
 ## Installation
 
@@ -46,6 +50,14 @@ it will install apropiate files and start the stopspam script.
 
 Once you have Stop Spam installed proceed to modify the config
 files to fit your needs.
+
+**/etc/stopspam/white.ip.list**
+
+A list of ipv4 or ipv6 ip's to white list.
+
+**/etc/stopspam/white.host.list**
+
+A list of domains/hosts to white list.
 
 **/etc/stopspam/stopspam.conf**
 

@@ -46,17 +46,35 @@ Updates the spammers database file
 You can modify the script settings by editing /etc/stopspam/stopspam.conf
 
 .TP
-.B ENABLE_UPDATE = <0|1>
+.B ENABLE_UPDATE = <true|false>
 Enables automatic downloading and updating of spam database.
 (Default: 1)
 
 .TP
 .B SPAM_DB_URL = '<url>'
-The url where the spam database resides. Supports url's of .zip files
-containing .txt files inside or url's to uncompressed .txt files. Check
-http://www.stopforumspam.com/downloads for other ip databases that may
-match your requirements.
-(Default: http://www.stopforumspam.com/downloads/listed_ip_365.zip)
+The url of a valid spam formatted spam database like the ones provided by
+stopforumspam.com which provides a list of ip with the amount of reports and
+last activity date. Supports url's of .zip files containing .txt files
+inside or url's to uncompressed .txt files. Check http://www.stopforumspam.com/downloads
+for other ip databases that may match your requirements.
+(Default: http://www.stopforumspam.com/downloads/listed_ip_365_ipv46_all.zip)
+
+.TP
+.B MIN_SPAM_REPORTS = <number>
+The minimum amount of spam reports for an ip to be considered a valid spam ip.
+(Default: 3)
+
+.TP
+.B TOXIC_DB_URL = '<url>'
+Toxic url list, supports url's of .zip files containing .txt files inside or
+url's to uncompressed .txt files. The file most contain: valid ip's, cidr or
+ip ranges.
+(Default: http://www.stopforumspam.com/downloads/toxic_ip_cidr.txt)
+
+.TP
+.B ENABLE_SPAMHAUS = <true|false>
+Download and append the spamhaus drop lists to the SPAM_IP_LIST file.
+(Default: true)
 
 .TP
 .B UPDATE_INTERVAL = <hours>
@@ -64,7 +82,7 @@ The amount of elapsed hours before trying to update the spam database.
 (Default: 48)
 
 .TP
-.B SAVE_COUNTRY = <1|0>
+.B SAVE_COUNTRY = <true|false>
 Store the country of the ip on the log file which can slower the
 script because it uses whois to retreive the information.
 (Default: 1)
@@ -72,11 +90,6 @@ script because it uses whois to retreive the information.
 .TP
 .B BAN_PERIOD = <seconds>
 The amount of time in seconds to keep a spammer ip banned. (Default: 600)
-
-.TP
-.B FIREWALL = '<value>'
-The firewall to use for blocking/unblocking, valid values are:
-auto, apf, csf and iptables. (Default: "auto")
 
 .TP
 .B DAEMON_FREQ = <number>
@@ -90,6 +103,10 @@ Frequency in seconds to monitor for spammer ip's. (Default: 3)
 .B /etc/stopspam/stopspam.conf
 .br
 .B /etc/stopspam/spam.ip.list
+.br
+.B /etc/stopspam/white.ip.list
+.br
+.B /etc/stopspam/white.host.list
 
 .SH AUTHOR
 Jefferson González <jgmdev@gmail.com>

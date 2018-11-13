@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check for required dependencies
-for dependency in unzip netstat iptables whois wget awk sed grep; do
+for dependency in unzip ss iptables ip6tables whois wget awk sed grep pgrep grepcidr; do
     is_installed=`which $dependency`
     if [ "$is_installed" = "" ]; then
         echo "error: Required dependency '$dependency' is missing.";
@@ -20,11 +20,23 @@ if [ ! -d "$DESTDIR/etc/stopspam" ]; then
     mkdir -p "$DESTDIR/etc/stopspam"
 fi
 
-echo; echo 'Installing Stop Spam 0.1'; echo
+echo; echo 'Installing Stop Spam'; echo
 
 if [ ! -e "$DESTDIR/etc/stopspam/stopspam.conf" ]; then
     echo -n 'Adding: /etc/stopspam/stopspam.conf...'
     cp config/stopspam.conf "$DESTDIR/etc/stopspam/stopspam.conf" > /dev/null 2>&1
+    echo " (done)"
+fi
+
+if [ ! -e "$DESTDIR/etc/stopspam/white.ip.list" ]; then
+    echo -n 'Adding: /etc/stopspam/white.ip.list...'
+    cp config/white.ip.list "$DESTDIR/etc/stopspam/white.ip.list" > /dev/null 2>&1
+    echo " (done)"
+fi
+
+if [ ! -e "$DESTDIR/etc/stopspam/white.host.list" ]; then
+    echo -n 'Adding: /etc/stopspam/white.host.list...'
+    cp config/white.host.list "$DESTDIR/etc/stopspam/white.host.list" > /dev/null 2>&1
     echo " (done)"
 fi
 
@@ -61,24 +73,7 @@ fi
 
 echo;
 
-if [ -d /etc/init.d ]; then
-    echo -n 'Setting up init script...'
-    mkdir -p "$DESTDIR/etc/init.d/"
-    cp src/stopspam.initd "$DESTDIR/etc/init.d/stopspam" > /dev/null 2>&1
-    chmod 0755 "$DESTDIR/etc/init.d/stopspam" > /dev/null 2>&1
-    echo " (done)"
-
-    # Check if update-rc is installed and activate service
-    UPDATERC_PATH=`whereis update-rc.d`
-    if [ "$UPDATERC_PATH" != "update-rc.d:" ] && [ "$DESTDIR" = "" ]; then
-        echo -n "Activating stopspam service..."
-        update-rc.d stopspam defaults > /dev/null 2>&1
-        service stopspam start > /dev/null 2>&1
-        echo " (done)"
-    else
-        echo "stopspam service needs to be manually started... (warning)"
-    fi
-elif [ -d /usr/lib/systemd/system ]; then
+if [ -d /usr/lib/systemd/system ]; then
     echo -n 'Setting up systemd service...'
     mkdir -p "$DESTDIR/usr/lib/systemd/system/"
     cp src/stopspam.service "$DESTDIR/usr/lib/systemd/system/" > /dev/null 2>&1
@@ -91,6 +86,23 @@ elif [ -d /usr/lib/systemd/system ]; then
         echo -n "Activating stopspam service..."
         systemctl enable stopspam > /dev/null 2>&1
         systemctl start stopspam > /dev/null 2>&1
+        echo " (done)"
+    else
+        echo "stopspam service needs to be manually started... (warning)"
+    fi
+elif [ -d /etc/init.d ]; then
+    echo -n 'Setting up init script...'
+    mkdir -p "$DESTDIR/etc/init.d/"
+    cp src/stopspam.initd "$DESTDIR/etc/init.d/stopspam" > /dev/null 2>&1
+    chmod 0755 "$DESTDIR/etc/init.d/stopspam" > /dev/null 2>&1
+    echo " (done)"
+
+    # Check if update-rc is installed and activate service
+    UPDATERC_PATH=`whereis update-rc.d`
+    if [ "$UPDATERC_PATH" != "update-rc.d:" ] && [ "$DESTDIR" = "" ]; then
+        echo -n "Activating stopspam service..."
+        update-rc.d stopspam defaults > /dev/null 2>&1
+        service stopspam start > /dev/null 2>&1
         echo " (done)"
     else
         echo "stopspam service needs to be manually started... (warning)"
