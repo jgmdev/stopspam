@@ -1,5 +1,22 @@
-stopspam (0.1) stable; urgency=low
+Changes Log
+==========================================================================
+
+Version 0.2 - Date 13/11/2018
+
+  * Added MIN_SPAM_REPORTS to be able to skip ip addresses with a lower
+    count of spam reports and prevent false positives.
+  * Added TOXIC_DB_URL which downloads a list of known bad networks from
+    stopforumspam.com
+  * Added support for spamhaus.org drop lists which can be controlled with
+    ENABLE_SPAMHAUS
+  * Added ipv6 support
+  * Added support for ip and host whitelist to prevent false reports of valid
+    important services.
+  * Added grepcidr as dependency used to calculate cidr and ranges on whitelist.
+  * Performance improvements by reducing the amount of commands needed to
+    check an ip address.
+  * Other changes and improvements that will need a stopspam.conf update.
+
+Version 0.1 - Date 10/01/2015
 
   * Initial version of script.
-
- -- Jefferson González <jgmdev@gmail.com>  Fri, 10 Jan 2015 17:27:01 +0200
