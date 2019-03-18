@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check for required dependencies
-for dependency in unzip ss iptables ip6tables whois wget awk sed grep pgrep grepcidr; do
+for dependency in unzip ss ifconfig iptables ip6tables whois wget awk sed grep pgrep grepcidr; do
     is_installed=`which $dependency`
     if [ "$is_installed" = "" ]; then
         echo "error: Required dependency '$dependency' is missing.";
