@@ -27,8 +27,8 @@ amount of rules actively used.
 As root user execute the following commands:
 
 ```shell
-wget https://github.com/jgmdev/stopspam/archive/master.zip
-unzip master.zip
+wget https://github.com/jgmdev/stopspam/archive/master.zip -O stopspam.zip
+unzip stopspam.zip
 cd stopspam-master
 ./install.sh
 ```
